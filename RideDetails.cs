@@ -7,7 +7,7 @@ namespace CabInvoice
     /// <summary>
     /// Ride details contains distance and time
     /// </summary>
-    class RideDetails
+  public  class RideDetails
     {
         public double distance;
         public int time;

@@ -2,7 +2,7 @@
 // <copyright file="InvoiceGenerator.cs" company="Capgemini">
 //   Copyright © 2018 Company
 // </copyright>
-// <creator Name="Kumar Kartikeya"/>
+// <creator Name="Mukhesh Attuluri"/>
 // --------------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace CabInvoice
         public RideType rideType;
         ///Constants
         private readonly double MINIMUM_COST_PER_KM;
-        private readonly double COST_PER_KM;
+        private readonly double COST_PER_MIN;
         private readonly double MINIMUM_FARE;
         ///Default constructor
         public InvoiceGenerator() { }
@@ -25,10 +25,11 @@ namespace CabInvoice
             this.rideType = rideType;
 
             this.MINIMUM_COST_PER_KM = 10;
-            this.COST_PER_KM = 1;
+            this.COST_PER_MIN= 1;
             this.MINIMUM_FARE = 5;
         }
         /// <summary>
+        /// UC1
         /// This method returns total fare
         /// Given distance and time of ride
         /// </summary>
@@ -40,7 +41,7 @@ namespace CabInvoice
             double totalFare = 0;
             try
             {
-                totalFare = distance * MINIMUM_COST_PER_KM + time * COST_PER_KM;
+                totalFare = distance * MINIMUM_COST_PER_KM + time * COST_PER_MIN;
             }
             catch (CabInvoiceException)
             {
@@ -52,6 +53,29 @@ namespace CabInvoice
                     throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_TIME, "Invalid time");
             }
             return Math.Max(totalFare, MINIMUM_FARE);
+        }
+        /// <summary>
+        /// UC2
+        /// This method takes multiple Ride details and calculate fare
+        /// </summary>
+        /// <param name="rides"></param>
+        /// <returns></returns>
+        public InvoiceSummary CalculateFare(RideDetails[] rides)
+        {
+            double totalFare = 0;
+            try
+            {
+                foreach (RideDetails ride in rides)
+                {
+                    totalFare += this.CalculateFare(ride.distance, ride.time);
+                }
+            }
+            catch
+            {
+                if (rides == null)
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides are null");
+            }
+            return new InvoiceSummary(rides.Length, totalFare);
         }
     }
 }
