@@ -2,7 +2,7 @@
 // <copyright file="InvoiceGenerator.cs" company="Capgemini">
 //   Copyright © 2018 Company
 // </copyright>
-// <creator Name="Kumar Kartikeya"/>
+// <creator Name="Mukhesh Attuluri"/>
 // --------------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
