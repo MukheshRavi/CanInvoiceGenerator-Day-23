@@ -13,12 +13,12 @@ namespace CabInvoice
     public class InvoiceGenerator
     {
         public RideType rideType;
+        public double totalFare = 0;
+        public double averageFare = 0;
         ///Constants
         private readonly double MINIMUM_COST_PER_KM;
         private readonly double COST_PER_MIN;
         private readonly double MINIMUM_FARE;
-        ///Default constructor
-        public InvoiceGenerator() { }
         ///Parameterized  constructor
         public InvoiceGenerator(RideType rideType)
         {
@@ -38,7 +38,7 @@ namespace CabInvoice
         /// <returns></returns>
         public double CalculateFare(double distance, int time)
         {
-            double totalFare = 0;
+            
             try
             {
                 totalFare = distance * MINIMUM_COST_PER_KM + time * COST_PER_MIN;
@@ -62,20 +62,20 @@ namespace CabInvoice
         /// <returns></returns>
         public InvoiceSummary CalculateFare(RideDetails[] rides)
         {
-            double totalFare = 0;
             try
             {
                 foreach (RideDetails ride in rides)
                 {
                     totalFare += this.CalculateFare(ride.distance, ride.time);
                 }
+                averageFare = totalFare / rides.Length;
             }
             catch
             {
                 if (rides == null)
                     throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides are null");
             }
-            return new InvoiceSummary(rides.Length, totalFare);
+            return new InvoiceSummary(rides.Length, totalFare, averageFare);
         }
     }
 }

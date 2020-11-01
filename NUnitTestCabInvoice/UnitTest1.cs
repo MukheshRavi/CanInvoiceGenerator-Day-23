@@ -23,16 +23,17 @@ namespace NUnitTestCabInvoice
             Assert.AreEqual(expectedFare, actualFare);
         }
         /// <summary>
-        /// UC 2 : 
+        /// UC 3 : 
         /// Given multiple rides should return invoice summary with aggregate totalFare
+        /// Also included Average of fares
         /// </summary>
         [Test]
         public void GivenMultipleRides_ShouldReturnInvoiceSummary()
         {
             // Arrange
+            RideDetails[] rides = { new RideDetails(3, 5), new RideDetails(5, 4), new RideDetails(2, 5)};
+            InvoiceSummary expectedSummary = new InvoiceSummary(3, 114, 38);
             invoiceGenerator = new InvoiceGenerator(RideType.NORMAL);
-            RideDetails[] rides = { new RideDetails(3, 5), new RideDetails(5, 4) };
-            InvoiceSummary expectedSummary = new InvoiceSummary(2,89);
             // Act
             InvoiceSummary actualSummary = invoiceGenerator.CalculateFare(rides);
             //Assert
