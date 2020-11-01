@@ -6,12 +6,14 @@ namespace CabInvoice
 {
     public class InvoiceSummary
     {
-        private int numberOfRides;
-        private double totalFare;
-        public InvoiceSummary(int numberOfRides, double totalFare)
+        public int numberOfRides;
+        public double totalFare;
+        public double averageFare;
+        public InvoiceSummary(int numberOfRides, double totalFare, double averageFare)
         {
             this.numberOfRides = numberOfRides;
             this.totalFare = totalFare;
+            this.averageFare = averageFare;
         }
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
@@ -28,14 +30,14 @@ namespace CabInvoice
             if (!(obj is InvoiceSummary))
                 return false;
             // returns true only if the following values of BOTH the objects are equal
-            return (this.numberOfRides == ((InvoiceSummary)obj).numberOfRides) && (this.totalFare == ((InvoiceSummary)obj).totalFare);
+            return (this.numberOfRides == ((InvoiceSummary)obj).numberOfRides) && (this.totalFare == ((InvoiceSummary)obj).totalFare) && (this.averageFare == ((InvoiceSummary)obj).averageFare);
         }
         /// <summary>
         /// Returns a hash code
         /// </summary>
         public override int GetHashCode()
         {
-            return numberOfRides.GetHashCode() ^ totalFare.GetHashCode();
+            return numberOfRides.GetHashCode() ^ totalFare.GetHashCode() ^ averageFare.GetHashCode();
         }
     }
 }
