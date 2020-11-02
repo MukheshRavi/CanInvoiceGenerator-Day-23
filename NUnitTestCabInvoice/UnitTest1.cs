@@ -60,5 +60,21 @@ namespace NUnitTestCabInvoice
             //Asserting values with average in equals to formula in invoice summary
             Assert.AreEqual(expectedSummary, summary);
         }
+        /// <summary>
+        /// UC 5:
+        /// This method takes distance and time and  returns total fare
+        /// For Premium Rides
+        /// </summary>
+        [Test]
+        public void GivenDistanceAndTime_ReturnsTotalFare_For_Premium_Ride()
+        {
+            double distance = 5.0;
+            int time = 10;
+            invoiceGenerator = new InvoiceGenerator(RideType.PREMIUM);
+            double actualFare = invoiceGenerator.CalculateFare(distance, time);
+            double expectedFare = 95;
+            /// Assert
+            Assert.AreEqual(expectedFare, actualFare);
+        }
     }
 }

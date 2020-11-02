@@ -25,10 +25,19 @@ namespace CabInvoice
         {
             this.rideRepository = new RideRepository();
             this.rideType = rideType;
+            if (rideType.ToString().Equals("NORMAL"))
+            {
+                this.MINIMUM_COST_PER_KM = 10;
+                this.COST_PER_MIN = 1;
+                this.MINIMUM_FARE = 5;
+            }
+            else
+            {
+                this.MINIMUM_COST_PER_KM = 15;
+                this.COST_PER_MIN = 2;
+                this.MINIMUM_FARE = 20;
 
-            this.MINIMUM_COST_PER_KM = 10;
-            this.COST_PER_MIN= 1;
-            this.MINIMUM_FARE = 5;
+            }
         }
         /// <summary>
         /// UC1
