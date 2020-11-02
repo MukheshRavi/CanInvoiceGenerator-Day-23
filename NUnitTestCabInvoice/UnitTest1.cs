@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using CabInvoice;
+using System.Collections.Generic;
 
 namespace NUnitTestCabInvoice
 {
@@ -38,6 +39,26 @@ namespace NUnitTestCabInvoice
             InvoiceSummary actualSummary = invoiceGenerator.CalculateFare(rides);
             //Assert
             Assert.AreEqual(expectedSummary, actualSummary);
+        }
+        /// <summary>
+        /// Givens the rides for different users should return invoice summary. UC4
+        /// </summary>
+        [Test]
+        public void GivenRidesForDifferentUsersShouldReturnInvoiceSummary()
+        {
+            //Creating instance of invoice generator 
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(RideType.NORMAL);
+            RideDetails[] rides = { new RideDetails(3, 5), new RideDetails(5, 4), new RideDetails(2, 5) };
+            string firstUserId = "001";
+            invoiceGenerator.AddRides(firstUserId, rides);
+            string userIdForSecondUser = "002";
+            RideDetails[] ridesForSecondUser = { new RideDetails(3, 10), new RideDetails(6, 2) };
+            invoiceGenerator.AddRides(userIdForSecondUser, ridesForSecondUser);
+            //Generating Summary for rides
+            InvoiceSummary summary = invoiceGenerator.GetInvoiceSummary(firstUserId);
+            InvoiceSummary expectedSummary = new InvoiceSummary(3,114,38);
+            //Asserting values with average in equals to formula in invoice summary
+            Assert.AreEqual(expectedSummary, summary);
         }
     }
 }
