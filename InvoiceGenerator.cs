@@ -15,6 +15,7 @@ namespace CabInvoice
         public RideType rideType;
         public double totalFare = 0;
         public double averageFare = 0;
+        private RideRepository rideRepository;
         ///Constants
         private readonly double MINIMUM_COST_PER_KM;
         private readonly double COST_PER_MIN;
@@ -22,6 +23,7 @@ namespace CabInvoice
         ///Parameterized  constructor
         public InvoiceGenerator(RideType rideType)
         {
+            this.rideRepository = new RideRepository();
             this.rideType = rideType;
 
             this.MINIMUM_COST_PER_KM = 10;
@@ -76,6 +78,37 @@ namespace CabInvoice
                     throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides are null");
             }
             return new InvoiceSummary(rides.Length, totalFare, averageFare);
+        }
+        /// <summary>
+        /// Adds the rides in dictionary with key as a user id 
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="rides">The rides.</param>
+        /// <exception cref="CabInvoiceDay23.CabInvoiceException">Null rides</exception>
+        public void AddRides(string userId, RideDetails[] rides)
+        {
+            try
+            {
+                rideRepository.AddRides(userId, rides);
+            }
+            catch (CabInvoiceException)
+            {
+                if (rides == null)
+                {
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Null rides");
+                }
+            }
+        }
+        public InvoiceSummary GetInvoiceSummary(string userId)
+        {
+            try
+            {
+                return this.CalculateFare(rideRepository.GetRides(userId));
+            }
+            catch
+            {
+                throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_USER_ID, "Invalid user id");
+            }
         }
     }
 }
